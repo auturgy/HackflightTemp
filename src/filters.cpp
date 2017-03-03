@@ -15,7 +15,9 @@
    along with Hackflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "hackflight.hpp"
+#include "filters.hpp"
+#include <cstdint>
+#include <algorithm>
 
 namespace hf {
 
@@ -29,7 +31,7 @@ float complementaryFilter(float a, float b, float c)
 // deadband filter
 int32_t deadbandFilter(int32_t value, int32_t deadband)
 {
-    if (abs(value) < deadband) {
+    if (std::abs(value) < deadband) {
         value = 0;
     } else if (value > 0) {
         value -= deadband;

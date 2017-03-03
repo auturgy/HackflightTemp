@@ -18,10 +18,13 @@
 
 #pragma once
 
+#define _USE_MATH_DEFINES
+#include <cmath>
+
+
 namespace hf {
 
 #ifdef _WIN32
-#define M_PI 3.14159265358979323846f
 #define SPRINTF sprintf_s
 #define STRCPY  strcpy_s
 #define VSNPRINTF vsnprintf_s
@@ -33,4 +36,21 @@ namespace hf {
 #include <stdbool.h>
 #endif
 
-}
+
+
+#ifndef M_PIf
+#define M_PIf static_cast<float>(3.1415926535897932384626433832795028841972)
+#endif
+
+#ifndef M_PI
+#define M_PI static_cast<double>(3.1415926535897932384626433832795028841972)
+#endif
+
+#ifndef M_PIl
+#define M_PIl static_cast<long double>(3.1415926535897932384626433832795028841972)
+#endif
+
+#define constrain(val, lo, hi) (val) < (lo) ? (lo) : ((val) > (hi) ? (hi) : (val))
+
+
+} //namespace

@@ -19,86 +19,49 @@
 
 #pragma once
 
+#include "board.hpp"
+#include "config.hpp"
+
+
 namespace hf {
 
-enum {
-    DEMAND_ROLL = 0,
-    DEMAND_PITCH,
-    DEMAND_YAW,
-    DEMAND_THROTTLE,
-    DEMAND_AUX1,
-    DEMAND_AUX2,
-    DEMAND_AUX3,
-    DEMAND_AUX4
+class RC {
+private:
+    int16_t dataAverage[CONFIG_RC_CHANS][4];
+    uint8_t commandDelay;                               // cycles since most recent movement
+    int32_t averageIndex;
+    int16_t lookupPitchRollRC[PITCH_LOOKUP_LENGTH];     // lookup table for expo & RC rate PITCH+ROLL
+    int16_t lookupThrottleRC[THROTTLE_LOOKUP_LENGTH];   // lookup table for expo & mid THROTTLE
+    int16_t midrc;
+    bool    useSerial;
+    Board*  board;
+
+public:
+    void init(Board * _board);
+
+    int16_t data[CONFIG_RC_CHANS]; // raw PWM values for MSP
+    int16_t command[4];            // stick PWM values for mixer, MSP
+    uint8_t sticks;                // stick positions for command combos
+
+    void update(void);
+
+    bool changed(void);
+
+    void computeExpo(void);
+
+    uint8_t auxState(void);
+
+    bool throttleIsDown(void);
 };
+} //namespace
 
-
-// Define number of RC channels, and min/max PWM
-#define CONFIG_RC_CHANS 8
-#define CONFIG_PWM_MIN  990
-#define CONFIG_PWM_MAX  2010
-
-// For logical combinations of stick positions (low, center, high)
-#define ROL_LO (1 << (2 * DEMAND_ROLL))
-#define ROL_CE (3 << (2 * DEMAND_ROLL))
-#define ROL_HI (2 << (2 * DEMAND_ROLL))
-#define PIT_LO (1 << (2 * DEMAND_PITCH))
-#define PIT_CE (3 << (2 * DEMAND_PITCH))
-#define PIT_HI (2 << (2 * DEMAND_PITCH))
-#define YAW_LO (1 << (2 * DEMAND_YAW))
-#define YAW_CE (3 << (2 * DEMAND_YAW))
-#define YAW_HI (2 << (2 * DEMAND_YAW))
-#define THR_LO (1 << (2 * DEMAND_THROTTLE))
-#define THR_CE (3 << (2 * DEMAND_THROTTLE))
-#define THR_HI (2 << (2 * DEMAND_THROTTLE))
-
-#define CONFIG_RC_EXPO_8                            65
-#define CONFIG_RC_RATE_8                            90
-#define CONFIG_THR_MID_8                            50
-#define CONFIG_THR_EXPO_8                           0
-#define CONFIG_MINCHECK                             1100
-#define CONFIG_MAXCHECK                             1900
-
-#define PITCH_LOOKUP_LENGTH    7
-#define THROTTLE_LOOKUP_LENGTH 12
 
 #ifdef __arm__
 extern "C" {
 #endif
 
-    class RC {
-
-        private:
-
-            int16_t dataAverage[CONFIG_RC_CHANS][4];
-            uint8_t commandDelay;                               // cycles since most recent movement
-            int32_t averageIndex;
-            int16_t lookupPitchRollRC[PITCH_LOOKUP_LENGTH];     // lookup table for expo & RC rate PITCH+ROLL
-            int16_t lookupThrottleRC[THROTTLE_LOOKUP_LENGTH];   // lookup table for expo & mid THROTTLE
-            int16_t midrc;
-            bool    useSerial;
-
-        public:
-
-            void init(void);
-
-            int16_t data[CONFIG_RC_CHANS]; // raw PWM values for MSP
-            int16_t command[4];            // stick PWM values for mixer, MSP
-            uint8_t sticks;                // stick positions for command combos
-
-            void update(void);
-
-            bool changed(void);
-
-            void computeExpo(void);
-
-            uint8_t auxState(void);
-
-            bool throttleIsDown(void);
-    };
+//TODO: define interface for ARM?
 
 #ifdef __arm__
 }
 #endif
-
-} //namespace

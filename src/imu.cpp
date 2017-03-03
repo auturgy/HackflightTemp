@@ -18,9 +18,12 @@
  */
 
 
-#include "hackflight.hpp"
-#include "filters.hpp"
 #include <cstdint>
+#include <cmath>
+#include "imu.hpp"
+#include "filters.hpp"
+#include "crossplatform.h"
+#include "config.hpp"
 
 namespace hf {
 
@@ -118,9 +121,10 @@ static void rotateV(float v[3], float *delta)
     v[Z] = v_tmp[X] * mat[0][2] + v_tmp[Y] * mat[1][2] + v_tmp[Z] * mat[2][2];
 }
 
-void IMU::init(uint16_t _calibratingGyroCycles, uint16_t _calibratingAccCycles) 
+void IMU::init(uint16_t _calibratingGyroCycles, uint16_t _calibratingAccCycles, Board * _board) 
 {
-    Board::imuInit(this->acc1G, this->gyroScale);
+    board = _board;
+    board->imuInit(this->acc1G, this->gyroScale);
 
     this->gyroScale = (4.0f / this->gyroScale) * (M_PI / 180.0f);
 
@@ -164,7 +168,7 @@ void IMU::update(uint32_t currentTime, bool armed, uint16_t & calibratingA, uint
 
     previousTime = currentTime;
 
-    Board::imuRead(accelADC, this->gyroADC);
+    board->imuRead(accelADC, this->gyroADC);
 
     for (int k=0; k<3; ++k) {
         this->gyroADC[k] >>= 2;

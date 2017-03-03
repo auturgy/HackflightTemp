@@ -17,38 +17,39 @@
 
 #pragma once
 
+#include "rc.hpp"
+#include "imu.hpp"
+#include <cstdint>
+
 namespace hf {
 
 
 #define CONFIG_MAX_ANGLE_INCLINATION                500 /* 50 degrees */
 
 class Stabilize {
+public:
+    int16_t axisPID[3];
 
-    private:
+    void init(RC * _rc, IMU * _imu);
 
-        class RC  * rc;
-        class IMU * imu;
+    void update(void);
 
-        uint8_t rate_p[3];
-        uint8_t rate_i[3];
-        uint8_t rate_d[3];
+    void resetIntegral(void);
 
-        int16_t lastGyro[3];
-        int32_t delta1[3]; 
-        int32_t delta2[3];
-        int32_t errorGyroI[3];
-        int32_t errorAngleI[2];
+private:
+    class RC  * rc;
+    class IMU * imu;
 
-    public:
+    uint8_t rate_p[3];
+    uint8_t rate_i[3];
+    uint8_t rate_d[3];
 
-        int16_t axisPID[3];
-
-        void init(class RC * _rc, class IMU * _imu);
-
-        void update(void);
-
-        void resetIntegral(void);
+    int16_t lastGyro[3];
+    int32_t delta1[3]; 
+    int32_t delta2[3];
+    int32_t errorGyroI[3];
+    int32_t errorAngleI[2];
 }; 
 
 
-}
+} //namespace

@@ -17,46 +17,79 @@
 
 #pragma once
 
-#include <stdint.h>
-#include <stdarg.h>
-#include <math.h>
-#include <stdio.h>
-
-#include "crossplatform.h"
-
+#include <cstdlib>
 #include "board.hpp"
 #include "imu.hpp"
 #include "rc.hpp"
-#include "stabilize.hpp"
 #include "mixer.hpp"
 #include "msp.hpp"
-#include "filters.hpp"
+
 
 namespace hf {
 
-#ifndef M_PI
-#endif
+class Hackflight {
 
-void debug(const char * format, ...);
+private:
+    class TimedTask {
+    private:
+        uint32_t usec;
+        uint32_t period;
 
-#ifndef abs
-#define abs(x)    ((x) > 0 ? (x) : -(x))
-#define sgn(x)    ((x) > 0 ? +1 : -1)
-#define min(a, b) ((a) < (b) ? (a) : (b))
-#define max(a, b) ((a) > (b) ? (a) : (b))
-#define constrain(val, lo, hi) (val) < (lo) ? lo : ((val) > hi ? hi : val) 
-#endif
+    public:
+        void init(uint32_t _period) {
 
-// Config =====================================================
+            this->period = _period;
+            this->usec = 0;
+        }
 
-#define CONFIG_MAGNETIC_DECLINATION                 0
+        bool checkAndUpdate(uint32_t currentTime) {
 
-#define CONFIG_CALIBRATING_ACC_MSEC                 1400
+            bool result = (int32_t)(currentTime - this->usec) >= 0;
 
-#define CONFIG_YAW_CONTROL_DIRECTION                1    // 1 or -1 
-#define CONFIG_RC_LOOPTIME_MSEC                     20
-#define CONFIG_CALIBRATE_ACCTIME_MSEC               500
-#define CONFIG_SMALL_ANGLE                          250  // tenths of a degree
-#define CONFIG_ALTITUDE_UPDATE_MSEC                 25   // based on accelerometer low-pass filter
+            if (result)
+                this->update(currentTime);
 
+            return result;
+        }
+
+        void update(uint32_t currentTime) {
+
+            this->usec = currentTime + this->period;
+        }
+
+        bool check(uint32_t currentTime) {
+
+            return (int32_t)(currentTime - this->usec) >= 0;
+        }
+    };
+
+public:
+    void setup(Board *board_val);
+    void loop(void);
+
+
+private:
+    TimedTask imuTask;
+    TimedTask rcTask;
+    TimedTask accelCalibrationTask;
+    TimedTask altitudeEstimationTask;
+
+    uint32_t imuLooptimeUsec;
+    uint16_t calibratingGyroCycles;
+    uint16_t calibratingAccCycles;
+    uint16_t calibratingG;
+    bool     haveSmallAngle;
+    bool     armed;
+
+    //objects we use
+    IMU        imu;
+    RC         rc;
+    Mixer      mixer;
+    MSP        msp;
+    Stabilize  stab;
+    Board      *board;
+};
+
+//global definitions
+void debug(const char * fmt, ...);
 }

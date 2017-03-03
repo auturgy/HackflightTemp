@@ -18,8 +18,7 @@
  */
 
 #include <string.h> // for memset
-
-#include "hackflight.hpp"
+#include "msp.hpp"
 
 namespace hf {
 
@@ -36,7 +35,7 @@ namespace hf {
 
 void MSP::serialize8(uint8_t a)
 {
-    Board::serialWriteByte(a);
+    board->serialWriteByte(a);
     portState.checksum ^= a;
 }
 
@@ -99,11 +98,12 @@ void MSP::tailSerialReply(void)
     serialize8(portState.checksum);
 }
 
-void MSP::init(class IMU * _imu, class Mixer * _mixer, class RC * _rc)
+void MSP::init(class IMU * _imu, class Mixer * _mixer, class RC * _rc, Board * _board)
 {
     this->imu = _imu;
     this->mixer = _mixer;
     this->rc = _rc;
+    this->board = _board;
 
     memset(&this->portState, 0, sizeof(this->portState));
 }
@@ -113,11 +113,11 @@ void MSP::update(bool armed)
     static bool pendReboot;
 
     // pendReboot will be set for flashing
-    Board::checkReboot(pendReboot);
+    board->checkReboot(pendReboot);
 
-    while (Board::serialAvailableBytes()) {
+    while (board->serialAvailableBytes()) {
 
-        uint8_t c = Board::serialReadByte();
+        uint8_t c = board->serialReadByte();
 
         if (portState.c_state == IDLE) {
             portState.c_state = (c == '$') ? HEADER_START : IDLE;
@@ -125,7 +125,7 @@ void MSP::update(bool armed)
                 if (c == '#')
                     ;
                 else if (c == CONFIG_REBOOT_CHARACTER) 
-                    Board::reboot();
+                    board->reboot();
             }
         } else if (portState.c_state == HEADER_START) {
             portState.c_state = (c == 'M') ? HEADER_M : IDLE;

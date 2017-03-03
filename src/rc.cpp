@@ -17,21 +17,22 @@
    along with Hackflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifdef __arm__
-extern "C" {
-#else
-#include <stdio.h>
-#endif
 
-#include "hackflight.hpp"
-
+#include <cstdio>
+#include <algorithm>
 #include <string.h>
+#include "rc.hpp"
+#include "crossplatform.h"
+
+
 
 namespace hf {
 
 
-void RC::init(void)
+void RC::init(Board * _board)
 {
+    board = _board;
+
     this->midrc = (CONFIG_PWM_MAX + CONFIG_PWM_MIN) / 2;
 
     memset (this->dataAverage, 0, 8*4*sizeof(int16_t));
@@ -40,7 +41,7 @@ void RC::init(void)
     this->sticks = 0;
     this->averageIndex = 0;
 
-    this->useSerial = Board::rcUseSerial();
+    this->useSerial = board->rcUseSerial();
 
     for (uint8_t i = 0; i < CONFIG_RC_CHANS; i++)
         this->data[i] = this->midrc;
@@ -66,7 +67,7 @@ void RC::update(void)
 {
     if (this->useSerial) {
         for (uint8_t chan = 0; chan < 5; chan++) {
-            this->data[chan] = Board::rcReadSerial(chan);
+            this->data[chan] = board->rcReadSerial(chan);
         }
     }
 
@@ -74,7 +75,7 @@ void RC::update(void)
         for (uint8_t chan = 0; chan < 8; chan++) {
 
             // get RC PWM
-            this->dataAverage[chan][this->averageIndex % 4] = Board::readPWM(chan);
+            this->dataAverage[chan][this->averageIndex % 4] = board->readPWM(chan);
 
             this->data[chan] = 0;
 
@@ -114,7 +115,7 @@ void RC::computeExpo(void)
 
     for (uint8_t channel = 0; channel < 3; channel++) {
 
-        tmp = min(abs(this->data[channel] - this->midrc), 500);
+        tmp = std::min(abs(this->data[channel] - this->midrc), 500);
 
         if (channel != DEMAND_YAW) { // roll, pitch
             tmp2 = tmp / 100;
@@ -151,6 +152,11 @@ bool RC::throttleIsDown(void)
 
 } //namespace
 
+
+#ifdef __arm__
+extern "C" {
+#endif
+    //TODO: export for Arm
 #ifdef __arm__
 } // extern "C"
 #endif

@@ -18,101 +18,37 @@
  */
 
 
-#include <math.h>
+#include <cmath>
+#include <string>
+#include <cstdarg>
 
 #include "hackflight.hpp"
-
-#include <string.h>
-
+#include "config.hpp"
 
 namespace hf {
 
-// Objects we use
-
-static IMU        imu;
-static RC         rc;
-static Mixer      mixer;
-static MSP        msp;
-static Stabilize  stab;
-static Board      board;
-
-// support for timed tasks
-
-class TimedTask {
-
-    private:
-
-        uint32_t usec;
-        uint32_t period;
-
-    public:
-
-        void init(uint32_t _period) {
-
-            this->period = _period;
-            this->usec = 0;
-        }
-
-        bool checkAndUpdate(uint32_t currentTime) {
-
-            bool result = (int32_t)(currentTime - this->usec) >= 0;
-
-            if (result)
-                this->update(currentTime);
-
-            return result;
-        }
-
-        void update(uint32_t currentTime) {
-
-            this->usec = currentTime + this->period;
-        }
-
-        bool check(uint32_t currentTime) {
-
-            return (int32_t)(currentTime - this->usec) >= 0;
-        }
-};
-
-
-// values initialized in setup()
-
-static TimedTask imuTask;
-static TimedTask rcTask;
-static TimedTask accelCalibrationTask;
-static TimedTask altitudeEstimationTask;
-
-static uint32_t imuLooptimeUsec;
-static uint16_t calibratingGyroCycles;
-static uint16_t calibratingAccCycles;
-static uint16_t calibratingG;
-static bool     haveSmallAngle;
-static bool     armed;
-
-#if defined(STM32)
-extern "C" { 
-#endif
-
-void setup(void)
+void Hackflight::setup(Board *board_val)
 {
+    board = board_val;
+
     uint32_t calibratingGyroMsec;
 
     // Get particulars for board
-    Board::init(imuLooptimeUsec, calibratingGyroMsec);
+    board->init(imuLooptimeUsec, calibratingGyroMsec);
 
     // sleep for 100ms
-    Board::delayMilliseconds(100);
+    board->delayMilliseconds(100);
 
     // flash the LEDs to indicate startup
-    Board::ledRedOff();
-    Board::ledGreenOff();
+    board->ledRedOff();
+    board->ledGreenOff();
     for (uint8_t i = 0; i < 10; i++) {
-        Board::ledRedOn();
-        Board::ledGreenOn();
-        Board::delayMilliseconds(50);
-        Board::ledRedOff();
-        Board::ledGreenOff();
-        Board::delayMilliseconds(50);
+        board->ledRedOn();
+        board->ledGreenOn();
+        board->delayMilliseconds(50);
+        board->ledRedOff();
+        board->ledGreenOff();
+        board->delayMilliseconds(50);
     }
 
     // compute cycles for calibration based on board's time constant
@@ -126,14 +62,15 @@ void setup(void)
     altitudeEstimationTask.init(CONFIG_ALTITUDE_UPDATE_MSEC * 1000);
 
     // initialize our external objects with objects they need
-    rc.init();
+    rc.init(board);
     stab.init(&rc, &imu);
-    imu.init(calibratingGyroCycles, calibratingAccCycles);
-    mixer.init(&rc, &stab); 
-    msp.init(&imu, &mixer, &rc);
+    imu.init(calibratingGyroCycles, calibratingAccCycles, board);
+    mixer.init(&rc, &stab, board); 
+    msp.init(&imu, &mixer, &rc, board);
 
     // do any extra initializations (baro, sonar, etc.)
-    board.extrasInit(&msp);
+    //TODO: re-enable this
+    //board->extrasInit(&msp);
 
     // always do gyro calibration at startup
     calibratingG = calibratingGyroCycles;
@@ -146,14 +83,14 @@ void setup(void)
     
 } // setup
 
-void loop(void)
+void Hackflight::loop(void)
 {
     static bool     accCalibrated;
     static uint16_t calibratingA;
     static uint32_t currentTime;
     static uint32_t disarmTime;
 
-    bool rcSerialReady = Board::rcSerialReady();
+    bool rcSerialReady = board->rcSerialReady();
 
     if (rcTask.checkAndUpdate(currentTime) || rcSerialReady) {
 
@@ -164,7 +101,7 @@ void loop(void)
 
         // useful for simulator
         if (armed)
-            Board::showAuxStatus(rc.auxState());
+            board->showAuxStatus(rc.auxState());
 
         // when landed, reset integral component of PID
         if (rc.throttleIsDown()) 
@@ -178,8 +115,8 @@ void loop(void)
                 if (rc.sticks == THR_LO + YAW_LO + PIT_CE + ROL_CE) {
                     if (armed) {
                         armed = false;
-                        Board::showArmedStatus(armed);
-                        // Reset disarm time so that it works next time we arm the Board::
+                        board->showArmedStatus(armed);
+                        // Reset disarm time so that it works next time we arm the board->
                         if (disarmTime != 0)
                             disarmTime = 0;
                     }
@@ -196,7 +133,7 @@ void loop(void)
                         if (!rc.auxState()) // aux switch must be in zero position
                             if (!armed) {
                                 armed = true;
-                                Board::showArmedStatus(armed);
+                                board->showArmedStatus(armed);
                             }
 
                 // accel calibration
@@ -208,21 +145,21 @@ void loop(void)
         } // rc.changed()
 
         // Detect aux switch changes for hover, altitude-hold, etc.
-        board.extrasCheckSwitch();
+        board->extrasCheckSwitch();
 
     } else {                    // not in rc loop
 
         static int taskOrder;   // never call all functions in the same loop, to avoid high delay spikes
 
-        board.extrasPerformTask(taskOrder);
+        board->extrasPerformTask(taskOrder);
 
         taskOrder++;
 
-        if (taskOrder >= Board::extrasGetTaskCount()) // using >= supports zero or more tasks
+        if (taskOrder >= board->extrasGetTaskCount()) // using >= supports zero or more tasks
             taskOrder = 0;
     }
 
-    currentTime = Board::getMicros();
+    currentTime = board->getMicros();
 
     if (imuTask.checkAndUpdate(currentTime)) {
 
@@ -233,22 +170,22 @@ void loop(void)
         debug("%d %d %d\n", imu.angle[0], imu.angle[1], imu.angle[2]);
 
         // measure loop rate just afer reading the sensors
-        currentTime = Board::getMicros();
+        currentTime = board->getMicros();
 
         // compute exponential RC commands
         rc.computeExpo();
 
         // use LEDs to indicate calibration status
         if (calibratingA > 0 || calibratingG > 0) {
-            Board::ledGreenOn();
+            board->ledGreenOn();
         }
         else {
             if (accCalibrated)
-                Board::ledGreenOff();
+                board->ledGreenOff();
             if (armed)
-                Board::ledRedOn();
+                board->ledRedOn();
             else
-                Board::ledRedOff();
+                board->ledRedOff();
         }
 
         // periodically update accelerometer calibration status
@@ -257,11 +194,11 @@ void loop(void)
             if (!haveSmallAngle) {
                 accCalibrated = false; 
                 if (on) {
-                    Board::ledGreenOff();
+                    board->ledGreenOff();
                     on = false;
                 }
                 else {
-                    Board::ledGreenOn();
+                    board->ledGreenOn();
                     on = true;
                 }
                 accelCalibrationTask.update(currentTime);
@@ -284,10 +221,6 @@ void loop(void)
 
 } // loop()
 
-#if defined(STM32)
-} // extern "C"
-#endif
-
 void debug(const char * fmt, ...)
 {
     va_list ap;       
@@ -298,11 +231,22 @@ void debug(const char * fmt, ...)
 
     vsprintf(buf, fmt, ap);
 
-    Board::dump(buf);
+    //TODO: make this method as member?
+    //board->dump(buf);
 
     va_end(ap);  
 }
 
 
+} //namespace
 
-}
+
+#if defined(STM32)
+extern "C" { 
+#endif
+
+    //TODO: for ARM instantiate static object and expose through glonal methods
+
+#if defined(STM32)
+} // extern "C"
+#endif

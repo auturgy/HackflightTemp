@@ -15,54 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\common_utils\AsyncTasker.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common_utils\ctpl_stl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common_utils\EnumFlags.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common_utils\ExceptionUtils.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common_utils\json.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common_utils\MedianFilter.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common_utils\OnlineStats.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common_utils\optional.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common_utils\prettyprint.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common_utils\ProsumerQueue.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common_utils\RandomGenerator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common_utils\ScheduledExecutor.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common_utils\sincos.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common_utils\StrictMode.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common_utils\type_utils.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common_utils\Utils.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\board.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -87,10 +39,10 @@
     <ClInclude Include="include\stabilize.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\pidvals.hpp">
+    <ClInclude Include="include\msp.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\msp.hpp">
+    <ClInclude Include="include\config.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -113,13 +65,13 @@
     <ClCompile Include="src\stabilize.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\board.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\msp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\SimBoard.hpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

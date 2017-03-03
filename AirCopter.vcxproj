@@ -20,34 +20,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\board.hpp" />
-    <ClInclude Include="include\common_utils\AsyncTasker.hpp" />
-    <ClInclude Include="include\common_utils\ctpl_stl.h" />
-    <ClInclude Include="include\common_utils\EnumFlags.hpp" />
-    <ClInclude Include="include\common_utils\ExceptionUtils.hpp" />
-    <ClInclude Include="include\common_utils\json.hpp" />
-    <ClInclude Include="include\common_utils\MedianFilter.hpp" />
-    <ClInclude Include="include\common_utils\OnlineStats.hpp" />
-    <ClInclude Include="include\common_utils\optional.hpp" />
-    <ClInclude Include="include\common_utils\prettyprint.hpp" />
-    <ClInclude Include="include\common_utils\ProsumerQueue.hpp" />
-    <ClInclude Include="include\common_utils\RandomGenerator.hpp" />
-    <ClInclude Include="include\common_utils\ScheduledExecutor.hpp" />
-    <ClInclude Include="include\common_utils\sincos.hpp" />
-    <ClInclude Include="include\common_utils\StrictMode.hpp" />
-    <ClInclude Include="include\common_utils\type_utils.hpp" />
-    <ClInclude Include="include\common_utils\Utils.hpp" />
     <ClInclude Include="include\crossplatform.h" />
     <ClInclude Include="include\filters.hpp" />
     <ClInclude Include="include\hackflight.hpp" />
     <ClInclude Include="include\imu.hpp" />
     <ClInclude Include="include\mixer.hpp" />
     <ClInclude Include="include\msp.hpp" />
-    <ClInclude Include="include\pidvals.hpp" />
+    <ClInclude Include="include\config.hpp" />
     <ClInclude Include="include\rc.hpp" />
     <ClInclude Include="include\stabilize.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\board.cpp" />
+    <ClCompile Include="include\SimBoard.hpp" />
     <ClCompile Include="src\filters.cpp" />
     <ClCompile Include="src\hackflight.cpp" />
     <ClCompile Include="src\imu.cpp" />

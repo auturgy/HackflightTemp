@@ -17,30 +17,49 @@
 
 #pragma once
 
+#include "board.hpp"
+#include "stabilize.hpp"
+
+
 namespace hf {
+
+class Mixer {
+public:
+    int16_t  motorsDisarmed[4];
+
+    void init(class RC * _rc, class Stabilize * _stabilize, Board * _board);
+
+    void update(bool armed);
+
+private:
+    RC        * rc;
+    Stabilize * stabilize;
+    Board * board;
+
+    // Custom mixer data per motor
+    typedef struct motorMixer_t {
+        float throttle;
+        float roll;
+        float pitch;
+        float yaw;
+    } motorMixer_t;
+
+    static constexpr motorMixer_t mixerQuadX[] = {
+        { 1.0f, -1.0f,  1.0f, -1.0f },          // REAR_R
+        { 1.0f, -1.0f, -1.0f,  1.0f },          // FRONT_R
+        { 1.0f,  1.0f,  1.0f,  1.0f },          // REAR_L
+        { 1.0f,  1.0f, -1.0f, -1.0f },          // FRONT_L
+    };
+
+};
+
+}
+
 
 #ifdef __arm__
 extern "C" {
 #endif
-
-    class Mixer {
-
-        private:
-
-            class RC        * rc;
-            class Stabilize * stabilize;
-        
-        public:
-
-            int16_t  motorsDisarmed[4];
-
-            void init(class RC * _rc, class Stabilize * _stabilize);
-
-            void update(bool armed);
-    };
-
+    //TODO put interface for arm
 #ifdef __arm__
 } // extern "C"
 #endif
-
-}

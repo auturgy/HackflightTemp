@@ -22,53 +22,76 @@
 namespace hf {
 
 class Board {
+public:
+    // your implementation should support these methods
 
-    private:
+    // Core functionality
+    virtual void     delayMilliseconds(uint32_t msec) = 0;
+    virtual void     dump(char * msg) = 0;
+    virtual uint32_t getMicros() = 0;
+    virtual void     imuInit(uint16_t & acc1G, float & gyroScale) = 0;
+    virtual void     imuRead(int16_t accADC[3], int16_t gyroADC[3]) = 0;
+    virtual void     init(uint32_t & imuLooptimeUsec, uint32_t & calibratingGyroMsec) = 0;
+    virtual void     ledGreenOff(void) = 0;
+    virtual void     ledGreenOn(void) = 0;
+    virtual void     ledRedOff(void) = 0;
+    virtual void     ledRedOn(void) = 0;
+    virtual uint16_t rcReadSerial(uint8_t chan) = 0;
+    virtual bool     rcUseSerial(void) = 0;
+    virtual uint16_t readPWM(uint8_t chan) = 0;
+    virtual void     writeMotor(uint8_t index, uint16_t value) = 0;
 
-        class MSP * msp;
 
-    public:
+    //optional serial port
+    virtual bool     rcSerialReady(void)
+    {
+        return false;
+    }
+    virtual uint8_t  serialAvailableBytes(void)
+    {
+        return 0;
+    }
+    virtual uint8_t  serialReadByte(void)
+    {
+        return 0;
+    }
+    virtual void     serialWriteByte(uint8_t c)
+    {
+    }
 
-        // your implementation should support these methods
 
-        // Core functionality
-        static void     delayMilliseconds(uint32_t msec);
-        static void     dump(char * msg);
-        static uint32_t getMicros();
-        static void     imuInit(uint16_t & acc1G, float & gyroScale);
-        static void     imuRead(int16_t accADC[3], int16_t gyroADC[3]);
-        static void     init(uint32_t & imuLooptimeUsec, uint32_t & calibratingGyroMsec);
-        static void     ledGreenOff(void);
-        static void     ledGreenOn(void);
-        static void     ledRedOff(void);
-        static void     ledRedOn(void);
-        static uint16_t rcReadSerial(uint8_t chan);
-        static bool     rcSerialReady(void);
-        static bool     rcUseSerial(void);
-        static uint16_t readPWM(uint8_t chan);
-        static uint8_t  serialAvailableBytes(void);
-        static uint8_t  serialReadByte(void);
-        static void     serialWriteByte(uint8_t c);
-        static void     writeMotor(uint8_t index, uint16_t value);
+    //board addons functionality
+    virtual void     extrasCheckSwitch(void) 
+    {}
+    virtual uint8_t  extrasGetTaskCount(void)
+    {
+        return 0;
+    }
+    virtual bool     extrasHandleMSP(uint8_t command)
+    {}
 
-        // extra functionality
-        void            extrasCheckSwitch(void);
-        static uint8_t  extrasGetTaskCount(void);
-        bool            extrasHandleMSP(uint8_t command);
-        void            extrasInit(class MSP * _msp);
-        void            extrasPerformTask(uint8_t taskIndex);
+    //TODO: this is causing circular reference
+    //virtual void     extrasInit(MSP * _msp)
+    //{}
 
-        // helps with simulation
-        static void     showArmedStatus(bool armed);
-        static void     showAuxStatus(uint8_t status);
+    virtual void     extrasPerformTask(uint8_t taskIndex)
+    {}
 
-        // STM32
-        static void     checkReboot(bool pendReboot);
-        static void     reboot(void);
+    //messaging during simulations
+    virtual void     showArmedStatus(bool armed)
+    {}
+    virtual void     showAuxStatus(uint8_t status)
+    {}
 
-        // default constants
-        static const uint32_t DEFAULT_IMU_LOOPTIME_USEC     = 3500;
-        static const uint32_t DEFAULT_GYRO_CALIBRATION_MSEC = 3500;
+    //STM32
+    virtual void     checkReboot(bool pendReboot)
+    {}
+    virtual void     reboot(void)
+    {}
+
+    //default constants
+    const uint32_t DEFAULT_IMU_LOOPTIME_USEC     = 3500;
+    const uint32_t DEFAULT_GYRO_CALIBRATION_MSEC = 3500;
 
 }; // class Board
 

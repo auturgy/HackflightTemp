@@ -17,6 +17,11 @@
 
 #pragma once
 
+#include "board.hpp"
+#include "imu.hpp"
+#include "rc.hpp"
+#include "mixer.hpp"
+
 namespace hf {
 
 #define CONFIG_REBOOT_CHARACTER 'R'
@@ -43,12 +48,11 @@ typedef  struct mspPortState_t {
 } mspPortState_t;
 
 class MSP {
-
     private:
-
-        class IMU        * imu;
-        class Mixer      * mixer;
-        class RC         * rc;
+        IMU        * imu;
+        Mixer      * mixer;
+        RC         * rc;
+        Board      * board;
 
         mspPortState_t portState;
 
@@ -65,7 +69,7 @@ class MSP {
 
     public:
 
-        void init(class IMU * _imu, class Mixer * _mixer, class RC * _rc);
+        void init(class IMU * _imu, class Mixer * _mixer, class RC * _rc, Board * _board);
 
         void update(bool armed);
 
