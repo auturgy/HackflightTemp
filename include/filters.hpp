@@ -21,10 +21,15 @@
 
 namespace hf {
 
-// complementary filter
-float complementaryFilter(float a, float b, float c);
+class Filters {
+public:
+    // complementary filter
+    static float complementaryFilter(float a, float b, float c);
 
-// deadband filter
-int32_t deadbandFilter(int32_t value, int32_t deadband);
+    // deadband filter
+    static int32_t deadbandFilter(int32_t value, int32_t deadband);
+
+};
+
 
 }

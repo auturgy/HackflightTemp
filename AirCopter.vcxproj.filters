@@ -45,6 +45,9 @@
     <ClInclude Include="include\config.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\SimBoard.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\filters.cpp">
@@ -69,9 +72,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\msp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="include\SimBoard.hpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

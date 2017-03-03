@@ -28,10 +28,10 @@
     <ClInclude Include="include\msp.hpp" />
     <ClInclude Include="include\config.hpp" />
     <ClInclude Include="include\rc.hpp" />
+    <ClInclude Include="include\SimBoard.hpp" />
     <ClInclude Include="include\stabilize.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\SimBoard.hpp" />
     <ClCompile Include="src\filters.cpp" />
     <ClCompile Include="src\hackflight.cpp" />
     <ClCompile Include="src\imu.cpp" />

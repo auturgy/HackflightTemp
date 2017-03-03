@@ -21,15 +21,14 @@
 
 namespace hf {
 
-
 // complementary filter
-float complementaryFilter(float a, float b, float c) 
+float Filters::complementaryFilter(float a, float b, float c) 
 {
     return a * c + b * (1 - c);
 }
 
 // deadband filter
-int32_t deadbandFilter(int32_t value, int32_t deadband)
+int32_t Filters::deadbandFilter(int32_t value, int32_t deadband)
 {
     if (std::abs(value) < deadband) {
         value = 0;
