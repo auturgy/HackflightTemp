@@ -32,4 +32,26 @@ public:
 };
 
 
+/********** CPP *******************/
+
+// complementary filter
+float Filters::complementaryFilter(float a, float b, float c) 
+{
+    return a * c + b * (1 - c);
+}
+
+// deadband filter
+int32_t Filters::deadbandFilter(int32_t value, int32_t deadband)
+{
+    if (std::abs(value) < deadband) {
+        value = 0;
+    } else if (value > 0) {
+        value -= deadband;
+    } else if (value < 0) {
+        value += deadband;
+    }
+    return value;
+}
+
+
 }

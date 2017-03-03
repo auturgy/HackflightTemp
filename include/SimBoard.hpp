@@ -9,7 +9,6 @@
 namespace hf {
 
 class SimBoard : public Board {
-
 public:
     virtual void init(uint32_t & looptimeMicroseconds, uint32_t & calibratingGyroMsec) override
     {

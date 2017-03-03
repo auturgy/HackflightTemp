@@ -20,9 +20,8 @@
 
 #define _USE_MATH_DEFINES
 #include <cmath>
-
-
-namespace hf {
+#include <cstdarg>
+#include <string>
 
 #ifdef _WIN32
 #define SPRINTF sprintf_s
@@ -35,8 +34,6 @@ namespace hf {
 #define VSNPRINTF vsnprintf
 #include <stdbool.h>
 #endif
-
-
 
 #ifndef M_PIf
 #define M_PIf static_cast<float>(3.1415926535897932384626433832795028841972)
@@ -52,5 +49,27 @@ namespace hf {
 
 #define constrain(val, lo, hi) (val) < (lo) ? (lo) : ((val) > (hi) ? (hi) : (val))
 
+
+namespace hf {
+
+class DebugUtils {
+public:
+    static void debug(const char * fmt, ...)
+    {
+        va_list ap;       
+
+        va_start(ap, fmt);     
+
+        char buf[1000];
+
+        vsprintf(buf, fmt, ap);
+
+        //TODO: make this method as member?
+        //board->dump(buf);
+
+        va_end(ap);  
+    }
+
+};
 
 } //namespace

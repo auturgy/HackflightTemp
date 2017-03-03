@@ -21,10 +21,9 @@
 
 namespace hf {
 
+//this class abstracts various boards
 class Board {
 public:
-    // your implementation should support these methods
-
     // Core functionality
     virtual void     delayMilliseconds(uint32_t msec) = 0;
     virtual void     dump(char * msg) = 0;
@@ -36,13 +35,20 @@ public:
     virtual void     ledGreenOn(void) = 0;
     virtual void     ledRedOff(void) = 0;
     virtual void     ledRedOn(void) = 0;
-    virtual uint16_t rcReadSerial(uint8_t chan) = 0;
-    virtual bool     rcUseSerial(void) = 0;
+    
     virtual uint16_t readPWM(uint8_t chan) = 0;
     virtual void     writeMotor(uint8_t index, uint16_t value) = 0;
 
 
     //optional serial port
+    virtual bool     rcUseSerial(void)
+    {
+        return false;
+    }
+    virtual uint16_t rcReadSerial(uint8_t chan)
+    {
+        return 0;
+    }
     virtual bool     rcSerialReady(void)
     {
         return false;
@@ -68,7 +74,9 @@ public:
         return 0;
     }
     virtual bool     extrasHandleMSP(uint8_t command)
-    {}
+    {
+        return true;
+    }
 
     //TODO: this is causing circular reference
     //virtual void     extrasInit(MSP * _msp)
@@ -88,11 +96,6 @@ public:
     {}
     virtual void     reboot(void)
     {}
-
-    //default constants
-    const uint32_t DEFAULT_IMU_LOOPTIME_USEC     = 3500;
-    const uint32_t DEFAULT_GYRO_CALIBRATION_MSEC = 3500;
-
 }; // class Board
 
 

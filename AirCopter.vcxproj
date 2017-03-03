@@ -28,18 +28,11 @@
     <ClInclude Include="include\msp.hpp" />
     <ClInclude Include="include\config.hpp" />
     <ClInclude Include="include\rc.hpp" />
-    <ClInclude Include="include\SimBoard.hpp" />
+    <ClInclude Include="include\simboard.hpp" />
     <ClInclude Include="include\stabilize.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\filters.cpp" />
-    <ClCompile Include="src\hackflight.cpp" />
-    <ClCompile Include="src\imu.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\mixer.cpp" />
-    <ClCompile Include="src\msp.cpp" />
-    <ClCompile Include="src\rc.cpp" />
-    <ClCompile Include="src\stabilize.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{8A41F9DF-3D61-4A4F-927A-5F7481FDFAD4}</ProjectGuid>

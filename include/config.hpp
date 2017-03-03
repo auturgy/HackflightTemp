@@ -22,7 +22,9 @@
 
 namespace hf {
 
+//=========================================================================
 //RC config
+//=========================================================================
 enum {
     DEMAND_ROLL = 0,
     DEMAND_PITCH,
@@ -64,8 +66,10 @@ enum {
 #define PITCH_LOOKUP_LENGTH    7
 #define THROTTLE_LOOKUP_LENGTH 12
 
-
+//=========================================================================
 //PID config
+//=========================================================================
+
 // Level (accelerometer)
 static const uint8_t CONFIG_LEVEL_P          = 10;
 static const uint8_t CONFIG_LEVEL_I          = 1;
@@ -85,9 +89,16 @@ static const uint8_t CONFIG_YAW_I            = 20;
 #define CONFIG_HOVER_ALT_D  1
 
 
+//=========================================================================
+// IMU config
+//=========================================================================
+//default constants
+const uint32_t DEFAULT_IMU_LOOPTIME_USEC     = 3500;
+const uint32_t DEFAULT_GYRO_CALIBRATION_MSEC = 3500;
 
-// Config =====================================================
-
+//=========================================================================
+// MISC config
+//=========================================================================
 #define CONFIG_MAGNETIC_DECLINATION                 0
 
 #define CONFIG_CALIBRATING_ACC_MSEC                 1400
@@ -98,4 +109,22 @@ static const uint8_t CONFIG_YAW_I            = 20;
 #define CONFIG_SMALL_ANGLE                          250  // tenths of a degree
 #define CONFIG_ALTITUDE_UPDATE_MSEC                 25   // based on accelerometer low-pass filter
 
-}
+#define CONFIG_MAX_ANGLE_INCLINATION                500 /* 50 degrees */
+
+
+//=========================================================================
+// MSP config
+//=========================================================================
+#define MSP_REBOOT               68     
+#define MSP_RC                   105    
+#define MSP_ATTITUDE             108    
+#define MSP_ALTITUDE             109    
+#define MSP_BARO_SONAR_RAW       126    
+#define MSP_SONARS               127    
+#define MSP_SET_RAW_RC           200    
+#define MSP_SET_HEAD             211
+#define MSP_SET_MOTOR            214    
+
+
+
+} //namespace
