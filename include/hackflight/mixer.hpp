@@ -17,8 +17,8 @@
 
 #pragma once
 
-#include "board.hpp"
-#include "stabilize.hpp"
+#include "hackflight/board.hpp"
+#include "hackflight/stabilize.hpp"
 
 
 namespace hf {

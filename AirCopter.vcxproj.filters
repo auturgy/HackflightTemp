@@ -15,37 +15,37 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\board.hpp">
+    <ClInclude Include="include\hackflight\board.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\crossplatform.h">
+    <ClInclude Include="include\hackflight\common.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\filters.hpp">
+    <ClInclude Include="include\hackflight\config.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\hackflight.hpp">
+    <ClInclude Include="include\hackflight\filters.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\imu.hpp">
+    <ClInclude Include="include\hackflight\hackflight.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\mixer.hpp">
+    <ClInclude Include="include\hackflight\imu.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\rc.hpp">
+    <ClInclude Include="include\hackflight\mixer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\stabilize.hpp">
+    <ClInclude Include="include\hackflight\msp.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\msp.hpp">
+    <ClInclude Include="include\hackflight\rc.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\config.hpp">
+    <ClInclude Include="include\hackflight\SimBoard.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\SimBoard.hpp">
+    <ClInclude Include="include\hackflight\stabilize.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

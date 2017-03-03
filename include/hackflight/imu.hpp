@@ -17,12 +17,12 @@
 
 #pragma once
 
-#include "board.hpp"
+#include "hackflight/board.hpp"
 #include <cstdint>
 #include <cmath>
-#include "filters.hpp"
-#include "crossplatform.h"
-#include "config.hpp"
+#include "hackflight/filters.hpp"
+#include "hackflight/common.hpp"
+#include "hackflight/config.hpp"
 
 namespace hf {
 

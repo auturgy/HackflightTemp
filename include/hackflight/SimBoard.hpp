@@ -1,9 +1,9 @@
 // Board implementation ======================================================
 #include <cstdio>
 #include <cstdint>
-#include "board.hpp"
-#include "config.hpp"
-#include "crossplatform.h"
+#include "hackflight/board.hpp"
+#include "hackflight/config.hpp"
+#include "hackflight/common.hpp"
 
 
 namespace hf {

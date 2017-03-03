@@ -18,12 +18,12 @@
 #pragma once
 
 #include <cstdlib>
-#include "board.hpp"
-#include "imu.hpp"
-#include "rc.hpp"
-#include "mixer.hpp"
-#include "msp.hpp"
-#include "crossplatform.h"
+#include "hackflight/board.hpp"
+#include "hackflight/imu.hpp"
+#include "hackflight/rc.hpp"
+#include "hackflight/mixer.hpp"
+#include "hackflight/msp.hpp"
+#include "hackflight/common.hpp"
 
 
 namespace hf {

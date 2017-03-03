@@ -19,11 +19,11 @@
 
 #pragma once
 
-#include "board.hpp"
-#include "config.hpp"
+#include "hackflight/board.hpp"
+#include "hackflight/config.hpp"
 #include <algorithm>
 #include <string.h>
-#include "crossplatform.h"
+#include "hackflight/common.hpp"
 
 
 namespace hf {

@@ -1,10 +1,12 @@
-#include "hackflight.hpp"
+#include "hackflight/hackflight.hpp"
+#include "hackflight/simboard.hpp"
 
 int main()
 {
-    //setup();
+    hf::Hackflight h;
+    h.setup(new hf::SimBoard());
 
-    //while (true) {
+    while (true) {
 
-    //}
+    }
 }

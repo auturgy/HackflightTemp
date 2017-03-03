@@ -17,10 +17,10 @@
 
 #pragma once
 
-#include "board.hpp"
-#include "imu.hpp"
-#include "rc.hpp"
-#include "mixer.hpp"
+#include "hackflight/board.hpp"
+#include "hackflight/imu.hpp"
+#include "hackflight/rc.hpp"
+#include "hackflight/mixer.hpp"
 
 namespace hf {
 
