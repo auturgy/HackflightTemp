@@ -18,6 +18,8 @@
 
 #pragma once
 
+namespace hf {
+
 #ifdef _WIN32
 #define M_PI 3.14159265358979323846f
 #define SPRINTF sprintf_s
@@ -30,3 +32,5 @@
 #define VSNPRINTF vsnprintf
 #include <stdbool.h>
 #endif
+
+}

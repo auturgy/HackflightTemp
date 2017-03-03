@@ -17,6 +17,8 @@
 
 #pragma once
 
+namespace hf {
+
 enum {
     AXIS_ROLL = 0,
     AXIS_PITCH,
@@ -58,3 +60,6 @@ class IMU {
         // called from Hover
         float computeAccelZ(void);
 };
+
+
+}

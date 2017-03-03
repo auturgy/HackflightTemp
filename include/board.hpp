@@ -19,6 +19,8 @@
 
 #include <cstdint>
 
+namespace hf {
+
 class Board {
 
     private:
@@ -69,3 +71,6 @@ class Board {
         static const uint32_t DEFAULT_GYRO_CALIBRATION_MSEC = 3500;
 
 }; // class Board
+
+
+} //namespace

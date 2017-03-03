@@ -17,6 +17,8 @@
 
 #pragma once
 
+namespace hf {
+
 #define CONFIG_REBOOT_CHARACTER 'R'
 
 static const int INBUF_SIZE = 128;
@@ -68,3 +70,5 @@ class MSP {
         void update(bool armed);
 
 }; // class MSP
+
+}

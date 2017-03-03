@@ -17,6 +17,8 @@
 
 #pragma once
 
+namespace hf {
+
 #ifdef __arm__
 extern "C" {
 #endif
@@ -40,3 +42,5 @@ extern "C" {
 #ifdef __arm__
 } // extern "C"
 #endif
+
+}

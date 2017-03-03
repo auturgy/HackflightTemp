@@ -27,6 +27,9 @@ extern "C" {
 
 #include <string.h>
 
+namespace hf {
+
+
 void RC::init(void)
 {
     this->midrc = (CONFIG_PWM_MAX + CONFIG_PWM_MIN) / 2;
@@ -144,6 +147,9 @@ bool RC::throttleIsDown(void)
 {
     return this->data[DEMAND_THROTTLE] < CONFIG_MINCHECK;
 }
+
+
+} //namespace
 
 #ifdef __arm__
 } // extern "C"

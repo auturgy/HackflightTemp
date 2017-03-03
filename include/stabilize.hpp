@@ -17,6 +17,9 @@
 
 #pragma once
 
+namespace hf {
+
+
 #define CONFIG_MAX_ANGLE_INCLINATION                500 /* 50 degrees */
 
 class Stabilize {
@@ -46,3 +49,6 @@ class Stabilize {
 
         void resetIntegral(void);
 }; 
+
+
+}

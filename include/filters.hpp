@@ -15,8 +15,15 @@
    along with Hackflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#pragma once
+
+
+namespace hf {
+
 // complementary filter
 float complementaryFilter(float a, float b, float c);
 
 // deadband filter
 int32_t deadbandFilter(int32_t value, int32_t deadband);
+
+}

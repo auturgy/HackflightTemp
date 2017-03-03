@@ -21,6 +21,9 @@
 
 #include "hackflight.hpp"
 
+namespace hf {
+
+
 #define MSP_REBOOT               68     
 #define MSP_RC                   105    
 #define MSP_ATTITUDE             108    
@@ -193,3 +196,6 @@ void MSP::update(bool armed)
         }
     }
 }
+
+
+} //namespace

@@ -17,8 +17,12 @@
    along with Hackflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 #include "hackflight.hpp"
 #include "filters.hpp"
+#include <cstdint>
+
+namespace hf {
 
 #define INV_GYR_CMPF_FACTOR   (1.0f / ((float)CONFIG_GYRO_CMPF_FACTOR + 1.0f))
 #define INV_GYR_CMPFM_FACTOR  (1.0f / ((float)CONFIG_GYRO_CMPFM_FACTOR + 1.0f))
@@ -118,7 +122,7 @@ void IMU::init(uint16_t _calibratingGyroCycles, uint16_t _calibratingAccCycles)
 {
     Board::imuInit(this->acc1G, this->gyroScale);
 
-    this->gyroScale = (4.0 / this->gyroScale) * (M_PI / 180.0f);
+    this->gyroScale = (4.0f / this->gyroScale) * (M_PI / 180.0f);
 
     // calculate RC time constant used in the this->accelZ lpf    
     this->fcAcc = (float)(0.5f / (M_PI * CONFIG_ACCZ_LPF_CUTOFF)); 
@@ -153,7 +157,7 @@ void IMU::update(uint32_t currentTime, bool armed, uint16_t & calibratingA, uint
     float accel_ned[3];
     float deltaGyroAngle[3];
     uint32_t dT_usec = currentTime - previousTime;
-    float dT_sec = dT_usec * 1e-6;
+    float dT_sec = dT_usec * 1e-6f;
     float scale = dT_sec* this->gyroScale; 
     int16_t  accelADC[3];
     float anglerad[3];
@@ -322,3 +326,6 @@ float IMU::computeAccelZ(void)
     return accelZ;
 }
 
+
+
+}

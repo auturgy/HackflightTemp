@@ -15,6 +15,10 @@
    along with Hackflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#pragma once
+
+namespace hf {
+
 // Level (accelerometer)
 static const uint8_t CONFIG_LEVEL_P          = 10;
 static const uint8_t CONFIG_LEVEL_I          = 1;
@@ -33,4 +37,4 @@ static const uint8_t CONFIG_YAW_I            = 20;
 #define CONFIG_HOVER_ALT_I  45
 #define CONFIG_HOVER_ALT_D  1
 
-
+}

@@ -19,6 +19,9 @@
 
 #include "hackflight.hpp"
 #include "pidvals.hpp"
+#include "stabilize.hpp"
+
+namespace hf {
 
 void Stabilize::init(class RC * _rc, class IMU * _imu)
 {
@@ -105,4 +108,7 @@ void Stabilize::resetIntegral(void)
     this->errorGyroI[AXIS_YAW] = 0;
     this->errorAngleI[AXIS_ROLL] = 0;
     this->errorAngleI[AXIS_PITCH] = 0;
+}
+
+
 }

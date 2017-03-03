@@ -1,6 +1,10 @@
-
+#include "hackflight.hpp"
 
 int main()
 {
-    return 0;
+    //setup();
+
+    //while (true) {
+
+    //}
 }

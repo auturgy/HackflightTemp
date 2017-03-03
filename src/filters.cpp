@@ -17,6 +17,9 @@
 
 #include "hackflight.hpp"
 
+namespace hf {
+
+
 // complementary filter
 float complementaryFilter(float a, float b, float c) 
 {
@@ -34,4 +37,7 @@ int32_t deadbandFilter(int32_t value, int32_t deadband)
         value += deadband;
     }
     return value;
+}
+
+
 }

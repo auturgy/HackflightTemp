@@ -15,17 +15,14 @@
    along with Hackflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#pragma once
+
 #include <stdint.h>
 #include <stdarg.h>
 #include <math.h>
 #include <stdio.h>
 
 #include "crossplatform.h"
-
-#ifndef M_PI
-#endif
-
-void debug(const char * format, ...);
 
 #include "board.hpp"
 #include "imu.hpp"
@@ -34,6 +31,13 @@ void debug(const char * format, ...);
 #include "mixer.hpp"
 #include "msp.hpp"
 #include "filters.hpp"
+
+namespace hf {
+
+#ifndef M_PI
+#endif
+
+void debug(const char * format, ...);
 
 #ifndef abs
 #define abs(x)    ((x) > 0 ? (x) : -(x))
@@ -54,3 +58,5 @@ void debug(const char * format, ...);
 #define CONFIG_CALIBRATE_ACCTIME_MSEC               500
 #define CONFIG_SMALL_ANGLE                          250  // tenths of a degree
 #define CONFIG_ALTITUDE_UPDATE_MSEC                 25   // based on accelerometer low-pass filter
+
+}

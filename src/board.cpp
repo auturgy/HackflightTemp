@@ -2,6 +2,9 @@
 
 #include <board.hpp>
 #include <hackflight.hpp>
+#include <cstdint>
+
+namespace hf {
 
 // LED support
 
@@ -166,7 +169,7 @@ void Board::dump(char * msg)
 
 void Board::writeMotor(uint8_t index, uint16_t value)
 {
-    thrusts[index] = (value - 1000) / 1000.;
+    thrusts[index] = (value - 1000) / 1000.0f;
 }
 
 void Board::showArmedStatus(bool armed)
@@ -259,4 +262,7 @@ uint8_t Board::serialReadByte(void)
 
 void Board::serialWriteByte(uint8_t c)
 {
+}
+
+
 }

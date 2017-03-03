@@ -19,6 +19,8 @@
 
 #pragma once
 
+namespace hf {
+
 enum {
     DEMAND_ROLL = 0,
     DEMAND_PITCH,
@@ -98,3 +100,5 @@ extern "C" {
 #ifdef __arm__
 }
 #endif
+
+} //namespace

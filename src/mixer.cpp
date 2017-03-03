@@ -19,6 +19,9 @@
 
 #include "hackflight.hpp"
 
+namespace hf {
+
+
 // Custom mixer data per motor
 typedef struct motorMixer_t {
     float throttle;
@@ -82,3 +85,6 @@ void Mixer::update(bool armed)
     for (uint8_t i = 0; i < 4; i++)
         Board::writeMotor(i, motors[i]);
 }
+
+
+} //namespace
