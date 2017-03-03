@@ -28,7 +28,7 @@
     <ClInclude Include="include\hackflight\msp.hpp" />
     <ClInclude Include="include\hackflight\config.hpp" />
     <ClInclude Include="include\hackflight\rc.hpp" />
-    <ClInclude Include="include\hackflight\SimBoard.hpp" />
+    <ClInclude Include="include\hackflight\simboard.hpp" />
     <ClInclude Include="include\hackflight\stabilize.hpp" />
   </ItemGroup>
   <ItemGroup>
