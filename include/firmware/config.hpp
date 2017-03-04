@@ -34,7 +34,7 @@ struct Config {
         uint32_t accelCalibrationPeriodMilli = 500;
         uint32_t attitudeUpdatePeriodMilli = 500;   // based on accelerometer low-pass filter
 
-        uint16_t smallAngle = 250;  // tenths of a degree
+        //uint16_t smallAngle = 250;  // tenths of a degree
 
     } imu;
 

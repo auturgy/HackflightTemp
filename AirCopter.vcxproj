@@ -19,20 +19,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\hackflight\board.hpp" />
-    <ClInclude Include="include\hackflight\common.hpp" />
-    <ClInclude Include="include\hackflight\filters.hpp" />
-    <ClInclude Include="include\hackflight\hackflight.hpp" />
-    <ClInclude Include="include\hackflight\imu.hpp" />
-    <ClInclude Include="include\hackflight\mixer.hpp" />
-    <ClInclude Include="include\hackflight\msp.hpp" />
-    <ClInclude Include="include\hackflight\config.hpp" />
-    <ClInclude Include="include\hackflight\rc.hpp" />
-    <ClInclude Include="include\hackflight\simboard.hpp" />
-    <ClInclude Include="include\hackflight\stabilize.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\main.cpp" />
+    <ClInclude Include="include\firmware\BoardBase.hpp" />
+    <ClInclude Include="include\firmware\common.hpp" />
+    <ClInclude Include="include\firmware\config.hpp" />
+    <ClInclude Include="include\firmware\filters.hpp" />
+    <ClInclude Include="include\firmware\hackflight.hpp" />
+    <ClInclude Include="include\firmware\imu.hpp" />
+    <ClInclude Include="include\firmware\ImuBoardBase.hpp" />
+    <ClInclude Include="include\firmware\mixer.hpp" />
+    <ClInclude Include="include\firmware\msp.hpp" />
+    <ClInclude Include="include\firmware\rc.hpp" />
+    <ClInclude Include="include\firmware\SimBoard.hpp" />
+    <ClInclude Include="include\firmware\stabilize.hpp" />
+    <ClInclude Include="include\firmware\TimedTask.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{8A41F9DF-3D61-4A4F-927A-5F7481FDFAD4}</ProjectGuid>

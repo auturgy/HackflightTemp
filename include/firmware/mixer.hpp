@@ -67,7 +67,6 @@ void Mixer::init(RC * _rc, Stabilize * _stabilize)
 void Mixer::update(bool armed, int16_t motors[4])
 {
     int16_t maxMotor;
-    int16_t motors[4];
 
     for (uint8_t i = 0; i < 4; i++)
         motors[i] = (int16_t)

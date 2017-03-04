@@ -17,6 +17,7 @@ public:
         Config config;
         config.imu.imuLoopMicro = 10000;
         config.imu.calibratingGyroMilli = 100; //long enough to see but not to annoy
+        return config;
     }
 
     virtual void imuRead(IMU::ADC& adc) override

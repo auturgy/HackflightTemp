@@ -122,8 +122,8 @@ protected:
         setLed(0, false);
         setLed(1, false);
         for (uint8_t i = 0; i < onOffCount; i++) {
-            setLed(0, i % 2);
-            setLed(1, i % 2);
+            setLed(0, i % 2 != 0);
+            setLed(1, i % 2 != 0);
             delayMilliseconds(50);
         }
     }

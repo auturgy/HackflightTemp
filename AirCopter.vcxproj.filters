@@ -15,43 +15,44 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\hackflight\board.hpp">
+    <ClInclude Include="include\firmware\BoardBase.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\hackflight\common.hpp">
+    <ClInclude Include="include\firmware\common.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\hackflight\config.hpp">
+    <ClInclude Include="include\firmware\config.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\hackflight\filters.hpp">
+    <ClInclude Include="include\firmware\filters.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\hackflight\hackflight.hpp">
+    <ClInclude Include="include\firmware\hackflight.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\hackflight\imu.hpp">
+    <ClInclude Include="include\firmware\imu.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\hackflight\mixer.hpp">
+    <ClInclude Include="include\firmware\ImuBoardBase.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\hackflight\msp.hpp">
+    <ClInclude Include="include\firmware\mixer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\hackflight\rc.hpp">
+    <ClInclude Include="include\firmware\msp.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\hackflight\SimBoard.hpp">
+    <ClInclude Include="include\firmware\rc.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\hackflight\stabilize.hpp">
+    <ClInclude Include="include\firmware\SimBoard.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="include\firmware\stabilize.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\firmware\TimedTask.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

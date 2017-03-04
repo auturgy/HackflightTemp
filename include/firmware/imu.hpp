@@ -53,7 +53,7 @@ public:
 
     // called from MW
     void init(const Config::ImuConfig& _imu_config);
-    void update(uint32_t _currentTime, bool _armed, const ADC& _adc);
+    void update(uint64_t _currentTime, bool _armed, const ADC& _adc);
     void resetCalibration(bool gyro, bool accel);
     bool isGyroCalibrated();
     bool isAccelCalibrated();
@@ -148,7 +148,7 @@ bool IMU::isAccelCalibrated()
 }
 
 
-void IMU::update(uint32_t _currentTime, bool _armed, const ADC& _adc)
+void IMU::update(uint64_t _currentTime, bool _armed, const ADC& _adc)
 {
     static float    accelLPF[3];
     static int32_t  accelZoffset;
@@ -159,13 +159,14 @@ void IMU::update(uint32_t _currentTime, bool _armed, const ADC& _adc)
     static float    EstG[3];
     static float    EstN[3] = { 1.0f, 0.0f, 0.0f };
     static int16_t  gyroZero[3];
-    static uint32_t previousTime;
+    static uint64_t previousTime;
 
     int32_t accMag = 0;
     float rpy[3];
     float accel_ned[3];
     float deltaGyroAngle[3];
-    uint32_t dT_usec = _currentTime - previousTime;
+    //TODO: use 64 bit int?
+    uint32_t dT_usec = static_cast<uint32_t>(_currentTime - previousTime);
     float dT_sec = dT_usec * 1e-6f;
     float scale = dT_sec* this->gyroScale; 
     float anglerad[3];
