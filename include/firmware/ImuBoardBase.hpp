@@ -60,7 +60,7 @@ public: //interface
         return false;
     }
 
-    virtual ByteStreamBase* getSerial() override
+    virtual SerialBase* getSerial() override
     {
         return nullptr;
     }

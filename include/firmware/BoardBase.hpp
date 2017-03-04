@@ -18,7 +18,7 @@ along with Hackflight.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include <cstdint>
-#include "ByteStreamBase.hpp"
+#include "SerialBase.hpp"
 
 namespace hf {
 
@@ -31,7 +31,7 @@ public: //interface
     virtual uint16_t rcReadSerial(uint8_t chan) = 0;
     virtual bool rcSerialReady(void) = 0;
 
-    virtual ByteStreamBase* getSerial() = 0;
+    virtual SerialBase* getSerial() = 0;
 
     virtual void checkReboot(bool pendReboot) = 0;
     virtual void reboot(void) = 0;

@@ -81,8 +81,7 @@ void Hackflight::update(void)
 
     for (int i = 0; i < 4; ++i)
         board->writeMotor(i, motors[i]);
-
-} // loop()
+}
 
 
 } //namespace
