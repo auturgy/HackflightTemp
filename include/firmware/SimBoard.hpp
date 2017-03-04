@@ -12,11 +12,14 @@ namespace hf {
 
 class SimBoard : public ImuBoardBase {
 public:
-    virtual const Config& getConfig() override
+    virtual void init() override
     {
-        Config config;
         config.imu.imuLoopMicro = 10000;
         config.imu.calibratingGyroMilli = 100; //long enough to see but not to annoy
+    }
+
+    virtual const Config& getConfig() override
+    {
         return config;
     }
 
@@ -173,6 +176,8 @@ private:
     // We currently support these controllers
     enum controller_t { KEYBOARD, DSM, TARANIS, SPEKTRUM, EXTREME3D, PS3 , XBOX360 };
     controller_t controller;
+
+    Config config;
 };
 
 } //namespace

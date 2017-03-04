@@ -166,7 +166,6 @@ void ImuBoardBase::init()
     imu.init(config.imu);
     rc.init();
 
-    smallAngle = config.imu.smallAngle;
     disarmTime = 0;
 }
 
