@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "BoardBase.hpp"
+#include "board.hpp"
 #include "imu.hpp"
 #include "rc.hpp"
 #include "mixer.hpp"
@@ -49,14 +49,14 @@ typedef  struct mspPortState_t {
 
 class MSP {
 public:
-    void init(class IMU * _imu, class Mixer * _mixer, class RC * _rc, BoardBase * _board);
+    void init(class IMU * _imu, class Mixer * _mixer, class RC * _rc, Board * _board);
     void update(bool armed);
 
 private:
     IMU        * imu;
     Mixer      * mixer;
     RC         * rc;
-    BoardBase      * board;
+    Board      * board;
 
     mspPortState_t portState;
     bool pendReboot;
@@ -143,7 +143,7 @@ void MSP::tailSerialReply(void)
     serialize8(portState.checksum);
 }
 
-void MSP::init(class IMU * _imu, class Mixer * _mixer, class RC * _rc, BoardBase * _board)
+void MSP::init(class IMU * _imu, class Mixer * _mixer, class RC * _rc, Board * _board)
 {
     this->imu = _imu;
     this->mixer = _mixer;

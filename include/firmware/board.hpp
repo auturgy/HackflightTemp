@@ -19,12 +19,11 @@ along with Hackflight.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstdint>
 #include "config.hpp"
-#include "SerialBase.hpp"
 
 namespace hf {
 
 //abstraction for minimal board
-class BoardBase {
+class Board {
 public: //interface
     //------------------------------------------- Core functionality ---------------------------------------------
     virtual void init() = 0;
@@ -63,7 +62,7 @@ public: //interface
     virtual void showArmedStatus(bool armed) {}
     virtual void showAuxStatus(uint8_t status) {}
 
-}; // class BoardBase
+}; // class Board
 
 
 

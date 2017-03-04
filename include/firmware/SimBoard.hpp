@@ -1,16 +1,16 @@
-// BoardBase implementation ======================================================
+// Board implementation ======================================================
 #include <cstdio>
 #include <cstdint>
 #include <chrono>
 #include <thread>
-#include "BoardBase.hpp"
+#include "board.hpp"
 #include "config.hpp"
 #include "common.hpp"
 
 
 namespace hf {
 
-class SimBoard : public BoardBase {
+class SimBoard : public Board {
 public:
     virtual void init() override
     {

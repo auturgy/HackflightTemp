@@ -19,7 +19,7 @@
 
 #include <cstdlib>
 #include <cstdarg>
-#include "BoardBase.hpp"
+#include "board.hpp"
 #include "mixer.hpp"
 #include "msp.hpp"
 #include "common.hpp"
@@ -31,7 +31,7 @@ namespace hf {
 
 class Hackflight {
 public:
-    void init(BoardBase* _board);
+    void init(Board* _board);
     void update(void);
 
 private:
@@ -50,7 +50,7 @@ private:
     Mixer mixer;
     MSP msp;
     Stabilize stab;
-    BoardBase *board;
+    Board *board;
 
     // tasks that execute at specific internal
     TimedTask imuTask;
@@ -66,7 +66,7 @@ private:
 
 /********************************************* CPP ********************************************************/
 
-void Hackflight::init(BoardBase* _board)
+void Hackflight::init(Board* _board)
 {
     board = _board;
     initImuRc();

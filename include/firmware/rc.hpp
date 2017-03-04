@@ -22,7 +22,7 @@
 #include <algorithm>
 #include <string.h>
 #include "common.hpp"
-#include "BoardBase.hpp"
+#include "board.hpp"
 #include "config.hpp"
 
 
@@ -40,7 +40,7 @@ private:
 
 public:
     void init();
-    void update(BoardBase* _board);
+    void update(Board* _board);
 
     int16_t data[CONFIG_RC_CHANS]; // raw PWM values for MSP
     int16_t command[4];            // stick PWM values for mixer, MSP
@@ -90,7 +90,7 @@ void RC::init()
     }
 }
 
-void RC::update(BoardBase* _board)
+void RC::update(Board* _board)
 {
     if (_board->rcUseSerial()) {
         for (uint8_t chan = 0; chan < 5; chan++) {

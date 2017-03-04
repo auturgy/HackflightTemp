@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "BoardBase.hpp"
+#include "board.hpp"
 #include <cstdint>
 #include <cmath>
 #include "filters.hpp"
