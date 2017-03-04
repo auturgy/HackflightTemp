@@ -80,7 +80,7 @@ private:
 
 void MSP::serialize8(uint8_t a)
 {
-    board->getSerial()->writeByte(a);
+    board->serialWriteByte(a);
     portState.checksum ^= a;
 }
 
@@ -158,9 +158,9 @@ void MSP::update(bool armed)
     // pendReboot will be set for flashing
     board->checkReboot(pendReboot);
 
-    while (board->getSerial()->availableBytes()) {
+    while (board->serialAvailableBytes()) {
 
-        uint8_t c = board->getSerial()->readByte();
+        uint8_t c = board->serialReadByte();
 
         if (portState.c_state == IDLE) {
             portState.c_state = (c == '$') ? HEADER_START : IDLE;
