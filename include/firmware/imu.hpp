@@ -161,7 +161,7 @@ void IMU::update(uint64_t _currentTime, bool _armed, const int16_t _gyroAdc[3], 
     float rpy[3];
     float accel_ned[3];
     float deltaGyroAngle[3];
-    //TODO: use 64 bit int?
+    //TODO: use 64 bit int here?
     uint32_t dT_usec = static_cast<uint32_t>(_currentTime - previousTime);
     float dT_sec = dT_usec * 1e-6f;
     float scale = dT_sec* this->gyroScale; 

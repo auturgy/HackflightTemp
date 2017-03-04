@@ -183,9 +183,7 @@ bool RC::throttleIsDown(void)
 #ifdef __arm__
 extern "C" {
 #endif
-
-//TODO: define interface for ARM?
-
+//TODO: define interface for ARM
 #ifdef __arm__
 }
 #endif

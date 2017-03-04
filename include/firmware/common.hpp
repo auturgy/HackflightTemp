@@ -20,7 +20,6 @@
 
 #define _USE_MATH_DEFINES
 #include <cmath>
-#include <cstdarg>
 #include <string>
 
 #ifdef _WIN32
@@ -48,28 +47,3 @@
 #endif
 
 #define constrain(val, lo, hi) (val) < (lo) ? (lo) : ((val) > (hi) ? (hi) : (val))
-
-
-namespace hf {
-
-class DebugUtils {
-public:
-    static void debug(const char * fmt, ...)
-    {
-        va_list ap;       
-
-        va_start(ap, fmt);     
-
-        char buf[1000];
-
-        vsprintf(buf, fmt, ap);
-
-        //TODO: make this method as member?
-        //board->dump(buf);
-
-        va_end(ap);  
-    }
-
-};
-
-} //namespace

@@ -18,6 +18,7 @@
 #pragma once
 
 #include <cstdlib>
+#include <cstdarg>
 #include "BoardBase.hpp"
 #include "mixer.hpp"
 #include "msp.hpp"
@@ -38,6 +39,7 @@ private:
     void flashLeds(uint16_t onOffCount);
     void updateCalibrationState(bool& armed, bool& isMoving);
     void updateImu(bool armed);
+    void Hackflight::debug(const char * fmt, ...);
 
 private:
     bool     armed;
@@ -73,8 +75,7 @@ void Hackflight::init(BoardBase* _board)
     mixer.init(&rc, &stab); 
     msp.init(&imu, &mixer, &rc, board);
 
-    // do any extra initializations (baro, sonar, etc.)
-    //TODO: re-enable this
+    //TODO: can't enable this because of circuler includes
     //board->extrasInit(&msp);
 
     // ensure not armed
@@ -134,6 +135,21 @@ void Hackflight::flashLeds(uint16_t onOffCount)
     }
 }
 
+void Hackflight::debug(const char * fmt, ...)
+{
+    va_list ap;       
+
+    va_start(ap, fmt);     
+
+    char buf[1000];
+
+    vsprintf(buf, fmt, ap);
+
+    board->dump(buf);
+
+    va_end(ap);  
+}
+
 void Hackflight::updateImu(bool armed)
 {
     uint64_t currentTimeMicro = board->getMicros();
@@ -143,7 +159,7 @@ void Hackflight::updateImu(bool armed)
         imu.update(currentTimeMicro, armed, gyroAdc, accelAdc);
 
 
-        DebugUtils::debug("%d %d %d\n", imu.angle[0], imu.angle[1], imu.angle[2]);
+        debug("%d %d %d\n", imu.angle[0], imu.angle[1], imu.angle[2]);
 
         // measure loop rate just afer reading the sensors
         currentTimeMicro = board->getMicros();

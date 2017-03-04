@@ -57,7 +57,7 @@ public: //interface
     virtual uint8_t  extrasGetTaskCount(void) { return 0; }
     virtual bool     extrasHandleMSP(uint8_t command) { return true; }
     virtual void extrasPerformTask(uint8_t taskIndex) {}
-    //virtual void extrasInit(MSP * _msp) {}
+    //virtual void extrasInit(MSP * _msp) {} //TODO:// this causes circular includes
 
     //----------------------------------------------- Simulation -------------------------------------------------
     virtual void showArmedStatus(bool armed) {}
