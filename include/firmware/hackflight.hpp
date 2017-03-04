@@ -42,7 +42,7 @@ private:
     void Hackflight::debug(const char * fmt, ...);
 
 private:
-    bool     armed;
+    bool armed;
 
     //objects we use
     IMU imu;
