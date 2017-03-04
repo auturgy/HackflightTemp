@@ -59,17 +59,12 @@ public: //interface
     {
         return false;
     }
-    virtual uint8_t serialAvailableBytes(void) override
+
+    virtual ByteStreamBase* getSerial() override
     {
-        return 0;
+        return nullptr;
     }
-    virtual uint8_t serialReadByte(void) override
-    {
-        return 0;
-    }
-    virtual void serialWriteByte(uint8_t c) override
-    {
-    }
+
 
     //STM32
     virtual void checkReboot(bool pendReboot) override

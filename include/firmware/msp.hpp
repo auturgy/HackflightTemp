@@ -48,30 +48,29 @@ typedef  struct mspPortState_t {
 } mspPortState_t;
 
 class MSP {
-    private:
-        IMU        * imu;
-        Mixer      * mixer;
-        RC         * rc;
-        BoardBase      * board;
+public:
+    void init(class IMU * _imu, class Mixer * _mixer, class RC * _rc, BoardBase * _board);
+    void update(bool armed);
 
-        mspPortState_t portState;
+private:
+    IMU        * imu;
+    Mixer      * mixer;
+    RC         * rc;
+    BoardBase      * board;
 
-        void serialize8(uint8_t a);
-        void serialize16(int16_t a);
-        uint8_t read8(void);
-        uint16_t read16(void);
-        uint32_t read32(void);
-        void serialize32(uint32_t a);
-        void headSerialResponse(uint8_t err, uint8_t s);
-        void headSerialReply(uint8_t s);
-        void headSerialError(uint8_t s);
-        void tailSerialReply(void);
+    mspPortState_t portState;
+    bool pendReboot;
 
-    public:
-
-        void init(class IMU * _imu, class Mixer * _mixer, class RC * _rc, BoardBase * _board);
-
-        void update(bool armed);
+    void serialize8(uint8_t a);
+    void serialize16(int16_t a);
+    uint8_t read8(void);
+    uint16_t read16(void);
+    uint32_t read32(void);
+    void serialize32(uint32_t a);
+    void headSerialResponse(uint8_t err, uint8_t s);
+    void headSerialReply(uint8_t s);
+    void headSerialError(uint8_t s);
+    void tailSerialReply(void);
 
 }; // class MSP
 
@@ -80,7 +79,7 @@ class MSP {
 
 void MSP::serialize8(uint8_t a)
 {
-    board->serialWriteByte(a);
+    board->getSerial()->writeByte(a);
     portState.checksum ^= a;
 }
 
@@ -155,14 +154,12 @@ void MSP::init(class IMU * _imu, class Mixer * _mixer, class RC * _rc, BoardBase
 
 void MSP::update(bool armed)
 {
-    static bool pendReboot;
-
     // pendReboot will be set for flashing
     board->checkReboot(pendReboot);
 
-    while (board->serialAvailableBytes()) {
+    while (board->getSerial()->availableBytes()) {
 
-        uint8_t c = board->serialReadByte();
+        uint8_t c = board->getSerial()->readByte();
 
         if (portState.c_state == IDLE) {
             portState.c_state = (c == '$') ? HEADER_START : IDLE;

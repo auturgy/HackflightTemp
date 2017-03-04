@@ -1,5 +1,5 @@
 /*
-board.hpp : class header for board-specific routines
+ByteStreamBase.hpp : class header for byte stream
 
 This file is part of Hackflight.
 
@@ -18,25 +18,19 @@ along with Hackflight.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include <cstdint>
-#include "ByteStreamBase.hpp"
 
 namespace hf {
 
 //abstraction for minimal board
-class BoardBase {
+class ByteStreamBase {
 public: //interface
-    virtual uint16_t readPWM(uint8_t chan) = 0;
-    virtual void writeMotor(uint8_t index, uint16_t value) = 0;
-    virtual bool rcUseSerial(void) = 0;
-    virtual uint16_t rcReadSerial(uint8_t chan) = 0;
-    virtual bool rcSerialReady(void) = 0;
-
-    virtual ByteStreamBase* getSerial() = 0;
-
-    virtual void checkReboot(bool pendReboot) = 0;
-    virtual void reboot(void) = 0;
-}; // class BoardBase
+    virtual uint8_t  availableBytes(void) = 0;
+    virtual uint8_t  readByte(void) = 0;
+    virtual void writeByte(uint8_t c) = 0;
+}; // class ByteStreamBase
 
 
 
 } //namespace
+
+

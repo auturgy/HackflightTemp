@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\firmware\BoardBase.hpp" />
+    <ClInclude Include="include\firmware\ByteStreamBase.hpp" />
     <ClInclude Include="include\firmware\common.hpp" />
     <ClInclude Include="include\firmware\config.hpp" />
     <ClInclude Include="include\firmware\filters.hpp" />
@@ -29,6 +30,7 @@
     <ClInclude Include="include\firmware\mixer.hpp" />
     <ClInclude Include="include\firmware\msp.hpp" />
     <ClInclude Include="include\firmware\rc.hpp" />
+    <ClInclude Include="include\firmware\SerialBase.hpp" />
     <ClInclude Include="include\firmware\SimBoard.hpp" />
     <ClInclude Include="include\firmware\stabilize.hpp" />
     <ClInclude Include="include\firmware\TimedTask.hpp" />
