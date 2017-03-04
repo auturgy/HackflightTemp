@@ -45,8 +45,8 @@ private:
     bool     armed;
 
     //objects we use
-    IMU        imu;
-    RC         rc;
+    IMU imu;
+    RC rc;
     Mixer mixer;
     MSP msp;
     Stabilize stab;
@@ -58,9 +58,8 @@ private:
     TimedTask accelCalibrationTask;
     TimedTask altitudeEstimationTask;
 
-    uint32_t disarmTime;
+    //buffers for IMU read
     int16_t gyroAdc[3], accelAdc[3];
-    int16_t motors[4];
 }; //class
 
 
@@ -97,10 +96,7 @@ void Hackflight::update(void)
     stab.update();
 
     // update mixer
-    mixer.update(armed, motors);
-
-    for (int i = 0; i < 4; ++i)
-        board->writeMotor(i, motors[i]);
+    mixer.update(armed, board);
 }
 
 void Hackflight::initImuRc()
@@ -120,8 +116,6 @@ void Hackflight::initImuRc()
 
     imu.init(config.imu);
     rc.init();
-
-    disarmTime = 0;
 }
 
 void Hackflight::flashLeds(uint16_t onOffCount)
@@ -195,9 +189,6 @@ void Hackflight::updateCalibrationState(bool& armed, bool& isMoving)
                         armed = false;
                         isMoving = false;
                         board->showArmedStatus(armed);
-                        // Reset disarm time so that it works next time we arm the board->
-                        if (disarmTime != 0)
-                            disarmTime = 0;
                     }
                 }
             } 

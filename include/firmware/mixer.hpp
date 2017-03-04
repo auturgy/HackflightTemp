@@ -29,7 +29,7 @@ public:
 
     void init(class RC * _rc, class Stabilize * _stabilize);
 
-    void update(bool armed, int16_t motors[4]);
+    void update(bool armed, Board* board);
 
 private:
     RC        * rc;
@@ -65,9 +65,10 @@ void Mixer::init(RC * _rc, Stabilize * _stabilize)
         this->motorsDisarmed[i] = CONFIG_PWM_MIN;
 }
 
-void Mixer::update(bool armed, int16_t motors[4])
+void Mixer::update(bool armed, Board* board)
 {
     int16_t maxMotor;
+    int16_t motors[4];
 
     for (uint8_t i = 0; i < 4; i++)
         motors[i] = (int16_t)
@@ -98,6 +99,9 @@ void Mixer::update(bool armed, int16_t motors[4])
             motors[i] = motorsDisarmed[i];
         }
     }
+
+    for (uint8_t i = 0; i < 4; i++)
+        board->writeMotor(i, motors[i]);
 }
 
 
