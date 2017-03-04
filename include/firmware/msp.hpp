@@ -17,10 +17,10 @@
 
 #pragma once
 
-#include "hackflight/board.hpp"
-#include "hackflight/imu.hpp"
-#include "hackflight/rc.hpp"
-#include "hackflight/mixer.hpp"
+#include "BoardBase.hpp"
+#include "imu.hpp"
+#include "rc.hpp"
+#include "mixer.hpp"
 
 namespace hf {
 
@@ -52,7 +52,7 @@ class MSP {
         IMU        * imu;
         Mixer      * mixer;
         RC         * rc;
-        Board      * board;
+        BoardBase      * board;
 
         mspPortState_t portState;
 
@@ -69,7 +69,7 @@ class MSP {
 
     public:
 
-        void init(class IMU * _imu, class Mixer * _mixer, class RC * _rc, Board * _board);
+        void init(class IMU * _imu, class Mixer * _mixer, class RC * _rc, BoardBase * _board);
 
         void update(bool armed);
 
@@ -143,7 +143,7 @@ void MSP::tailSerialReply(void)
     serialize8(portState.checksum);
 }
 
-void MSP::init(class IMU * _imu, class Mixer * _mixer, class RC * _rc, Board * _board)
+void MSP::init(class IMU * _imu, class Mixer * _mixer, class RC * _rc, BoardBase * _board)
 {
     this->imu = _imu;
     this->mixer = _mixer;

@@ -1,69 +1,41 @@
-// Board implementation ======================================================
+// BoardBase implementation ======================================================
 #include <cstdio>
 #include <cstdint>
-#include "hackflight/board.hpp"
-#include "hackflight/config.hpp"
-#include "hackflight/common.hpp"
+#include <chrono>
+#include <thread>
+#include "ImuBoardBase.hpp"
+#include "config.hpp"
+#include "common.hpp"
 
 
 namespace hf {
 
-class SimBoard : public Board {
+class SimBoard : public ImuBoardBase {
 public:
-    virtual void init(uint32_t & looptimeMicroseconds, uint32_t & calibratingGyroMsec) override
+    virtual const Config& getConfig() override
     {
-        looptimeMicroseconds = 10000;
-        calibratingGyroMsec = 100;  // long enough to see but not to annoy
-
-        //TODO: provide implementation below
-        //leds[0].init(greenLedHandle, 0, 1, 0);
-        //leds[1].init(redLedHandle, 1, 0, 0);
+        Config config;
+        config.imu.imuLoopMicro = 10000;
+        config.imu.calibratingGyroMilli = 100; //long enough to see but not to annoy
     }
 
-    virtual void imuInit(uint16_t & acc1G, float & gyroScale) override
-    {
-        // Mimic MPU6050
-        acc1G = 4096;
-        gyroScale = 16.4f;
-    }
-
-    virtual void imuRead(int16_t accADC[3], int16_t gyroADC[3]) override
+    virtual void imuRead(IMU::ADC& adc) override
     {
         // Convert from radians to tenths of a degree
 
         for (int k=0; k<3; ++k) {
-            accADC[k]  = (int16_t)(400000 * accel[k]);
+            adc.accel[k]  = (int16_t)(400000 * accel[k]);
         }
 
-        gyroADC[1] = -(int16_t)(1000 * gyro[0]);
-        gyroADC[0] = -(int16_t)(1000 * gyro[1]);
-        gyroADC[2] = -(int16_t)(1000 * gyro[2]);
-    }
-
-    virtual void ledGreenOff(void) override
-    {
-        leds[0].set(false);
-    }
-
-    virtual void ledGreenOn(void) override
-    {
-        leds[0].set(true);
-    }
-
-    virtual void ledRedOff(void) override
-    {
-        leds[1].set(false);
-    }
-
-    virtual void ledRedOn(void) override
-    {
-        leds[1].set(true);
+        adc.gyro[1] = -(int16_t)(1000 * gyro[0]);
+        adc.gyro[0] = -(int16_t)(1000 * gyro[1]);
+        adc.gyro[2] = -(int16_t)(1000 * gyro[2]);
     }
 
 
-    virtual uint32_t getMicros() override
+    virtual uint64_t getMicros() override
     {
-        return micros; 
+        return static_cast<uint64_t>(getTimeSinceEpoch());
     }
 
     virtual bool rcUseSerial(void) override
@@ -131,38 +103,38 @@ public:
     
     virtual void delayMilliseconds(uint32_t msec) override
     {
-        //TODO: thread.sleep?
+        if (msec <= 0)
+            return;
+
+        //if duration is too small, use spin wait otherwise use spin wait
+        if (msec >= 10) {
+            static constexpr duration<double> MinSleepDuration(0);
+            clock::time_point start = clock::now();
+            double dt = msec * 1000;
+            //spin wait
+            while (duration<double>(clock::now() - start).count() < dt) {
+                std::this_thread::sleep_for(MinSleepDuration);
+            }
+        }
+        else {
+            std::this_thread::sleep_for(duration<double>(msec * 1000));
+        }
     }
 
 
 private:
-    // LED support
-    class LED {
-    private:
-        int handle;
-        float color[3];
-        bool on;
-    public:
-        void init(int _handle, float r, float g, float b)
-        {
-            this->handle = _handle;
-            this->color[0] = r;
-            this->color[1] = g;
-            this->color[2] = b;
-            this->on = false;
-        }
+    double getTimeSinceEpoch()
+    {
+        using Clock = std::chrono::high_resolution_clock;
+        return std::chrono::duration<double>(Clock::now().time_since_epoch()).count();
+    }
 
-        void set(bool status)
-        {
-            this->on = status;
-            float black[3] = {0,0,0};
-            //TODO: provide implementation below
-            //simSetShapeColor(this->handle, NULL, 0, this->on ? this->color : black);
-        }
-    };
+private:
+    typedef std::chrono::high_resolution_clock clock;
+    template <typename T>
+    using duration = std::chrono::duration<T>;
 
-    LED leds[2];
-    uint32_t micros;
+
     // Launch support
     bool ready;
 
@@ -190,8 +162,6 @@ private:
     int motorJointList[4];
     int quadcopterHandle;
     int accelHandle;
-    int greenLedHandle;
-    int redLedHandle;
 
     // Support for reporting status of aux switch (alt-hold, etc.)
     uint8_t auxStatus;

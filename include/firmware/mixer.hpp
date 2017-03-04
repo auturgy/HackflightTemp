@@ -17,8 +17,8 @@
 
 #pragma once
 
-#include "hackflight/board.hpp"
-#include "hackflight/stabilize.hpp"
+#include "BoardBase.hpp"
+#include "stabilize.hpp"
 
 
 namespace hf {
@@ -27,14 +27,13 @@ class Mixer {
 public:
     int16_t  motorsDisarmed[4];
 
-    void init(class RC * _rc, class Stabilize * _stabilize, Board * _board);
+    void init(class RC * _rc, class Stabilize * _stabilize);
 
-    void update(bool armed);
+    void update(bool armed, int16_t motors[4]);
 
 private:
     RC        * rc;
     Stabilize * stabilize;
-    Board * board;
 
     // Custom mixer data per motor
     typedef struct motorMixer_t {
@@ -55,11 +54,8 @@ private:
 
 
 /********** CPP *******************/
-
-
-void Mixer::init(RC * _rc, Stabilize * _stabilize, Board * _board)
+void Mixer::init(RC * _rc, Stabilize * _stabilize)
 {
-    this->board = _board;
     this->stabilize = _stabilize;
     this->rc = _rc;
 
@@ -68,7 +64,7 @@ void Mixer::init(RC * _rc, Stabilize * _stabilize, Board * _board)
         this->motorsDisarmed[i] = CONFIG_PWM_MIN;
 }
 
-void Mixer::update(bool armed)
+void Mixer::update(bool armed, int16_t motors[4])
 {
     int16_t maxMotor;
     int16_t motors[4];
@@ -102,9 +98,6 @@ void Mixer::update(bool armed)
             motors[i] = motorsDisarmed[i];
         }
     }
-
-    for (uint8_t i = 0; i < 4; i++)
-        board->writeMotor(i, motors[i]);
 }
 
 

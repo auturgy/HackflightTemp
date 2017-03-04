@@ -22,6 +22,30 @@
 
 namespace hf {
 
+struct Config {
+    struct ImuConfig {
+        uint32_t imuLoopMicro;
+        uint32_t calibratingGyroMilli;
+
+        //Defaults are for MPU6050
+        uint16_t acc1G = 4096;
+        float gyroScale = 16.4f;
+        uint32_t calibratingAccelMilli = 1400;
+        uint32_t accelCalibrationPeriodMilli = 500;
+        uint32_t attitudeUpdatePeriodMilli = 500;   // based on accelerometer low-pass filter
+
+        uint16_t smallAngle = 250;  // tenths of a degree
+
+    } imu;
+
+    struct RcConfig {
+        uint32_t rcLoopMilli = 20;
+    } rc;
+
+    uint32_t initDelayMs = 100;
+    uint32_t ledFlashCountOnStartup = 20;
+};
+
 //=========================================================================
 //RC config
 //=========================================================================
@@ -101,14 +125,8 @@ const uint32_t DEFAULT_GYRO_CALIBRATION_MSEC = 3500;
 //=========================================================================
 #define CONFIG_MAGNETIC_DECLINATION                 0
 
-#define CONFIG_CALIBRATING_ACC_MSEC                 1400
-
 #define CONFIG_YAW_CONTROL_DIRECTION                1    // 1 or -1 
-#define CONFIG_RC_LOOPTIME_MSEC                     20
 #define CONFIG_CALIBRATE_ACCTIME_MSEC               500
-#define CONFIG_SMALL_ANGLE                          250  // tenths of a degree
-#define CONFIG_ALTITUDE_UPDATE_MSEC                 25   // based on accelerometer low-pass filter
-
 #define CONFIG_MAX_ANGLE_INCLINATION                500 /* 50 degrees */
 
 

@@ -19,11 +19,11 @@
 
 #pragma once
 
-#include "hackflight/board.hpp"
-#include "hackflight/config.hpp"
 #include <algorithm>
 #include <string.h>
-#include "hackflight/common.hpp"
+#include "common.hpp"
+#include "BoardBase.hpp"
+#include "config.hpp"
 
 
 namespace hf {
@@ -36,18 +36,16 @@ private:
     int16_t lookupPitchRollRC[PITCH_LOOKUP_LENGTH];     // lookup table for expo & RC rate PITCH+ROLL
     int16_t lookupThrottleRC[THROTTLE_LOOKUP_LENGTH];   // lookup table for expo & mid THROTTLE
     int16_t midrc;
-    bool    useSerial;
-    Board*  board;
+
 
 public:
-    void init(Board * _board);
+    void init();
+    void update(BoardBase* _board);
 
     int16_t data[CONFIG_RC_CHANS]; // raw PWM values for MSP
     int16_t command[4];            // stick PWM values for mixer, MSP
     uint8_t sticks;                // stick positions for command combos
-
-    void update(void);
-
+    
     bool changed(void);
 
     void computeExpo(void);
@@ -61,10 +59,8 @@ public:
 /********** CPP *******************/
 
 
-void RC::init(Board * _board)
+void RC::init()
 {
-    board = _board;
-
     this->midrc = (CONFIG_PWM_MAX + CONFIG_PWM_MIN) / 2;
 
     memset (this->dataAverage, 0, 8*4*sizeof(int16_t));
@@ -72,8 +68,6 @@ void RC::init(Board * _board)
     this->commandDelay = 0;
     this->sticks = 0;
     this->averageIndex = 0;
-
-    this->useSerial = board->rcUseSerial();
 
     for (uint8_t i = 0; i < CONFIG_RC_CHANS; i++)
         this->data[i] = this->midrc;
@@ -95,11 +89,11 @@ void RC::init(Board * _board)
     }
 }
 
-void RC::update(void)
+void RC::update(BoardBase* _board)
 {
-    if (this->useSerial) {
+    if (_board->rcUseSerial()) {
         for (uint8_t chan = 0; chan < 5; chan++) {
-            this->data[chan] = board->rcReadSerial(chan);
+            this->data[chan] = _board->rcReadSerial(chan);
         }
     }
 
@@ -107,7 +101,7 @@ void RC::update(void)
         for (uint8_t chan = 0; chan < 8; chan++) {
 
             // get RC PWM
-            this->dataAverage[chan][this->averageIndex % 4] = board->readPWM(chan);
+            this->dataAverage[chan][this->averageIndex % 4] = _board->readPWM(chan);
 
             this->data[chan] = 0;
 
