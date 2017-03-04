@@ -33,9 +33,6 @@
     <ClInclude Include="include\firmware\imu.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\firmware\ImuBoardBase.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\firmware\mixer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

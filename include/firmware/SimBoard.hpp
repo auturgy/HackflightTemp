@@ -3,14 +3,14 @@
 #include <cstdint>
 #include <chrono>
 #include <thread>
-#include "ImuBoardBase.hpp"
+#include "BoardBase.hpp"
 #include "config.hpp"
 #include "common.hpp"
 
 
 namespace hf {
 
-class SimBoard : public ImuBoardBase {
+class SimBoard : public BoardBase {
 public:
     virtual void init() override
     {
@@ -23,17 +23,17 @@ public:
         return config;
     }
 
-    virtual void imuRead(IMU::ADC& adc) override
+    virtual void imuRead(int16_t gyroAdc[3], int16_t accelAdc[3]) override
     {
         // Convert from radians to tenths of a degree
 
         for (int k=0; k<3; ++k) {
-            adc.accel[k]  = (int16_t)(400000 * accel[k]);
+            accelAdc[k]  = (int16_t)(400000 * accel[k]);
         }
 
-        adc.gyro[1] = -(int16_t)(1000 * gyro[0]);
-        adc.gyro[0] = -(int16_t)(1000 * gyro[1]);
-        adc.gyro[2] = -(int16_t)(1000 * gyro[2]);
+        gyroAdc[1] = -(int16_t)(1000 * gyro[0]);
+        gyroAdc[0] = -(int16_t)(1000 * gyro[1]);
+        gyroAdc[2] = -(int16_t)(1000 * gyro[2]);
     }
 
 

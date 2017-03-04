@@ -18,6 +18,7 @@ along with Hackflight.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include <cstdint>
+#include "config.hpp"
 #include "SerialBase.hpp"
 
 namespace hf {
@@ -25,16 +26,67 @@ namespace hf {
 //abstraction for minimal board
 class BoardBase {
 public: //interface
-    virtual uint16_t readPWM(uint8_t chan) = 0;
-    virtual void writeMotor(uint8_t index, uint16_t value) = 0;
-    virtual bool rcUseSerial(void) = 0;
-    virtual uint16_t rcReadSerial(uint8_t chan) = 0;
-    virtual bool rcSerialReady(void) = 0;
+    //------------------------------------------- Core functionality ---------------------------------------------
+    virtual void init() = 0;
+    virtual const Config& getConfig() = 0;
+    virtual void delayMilliseconds(uint32_t msec) = 0;
+    virtual void dump(char * msg) = 0;
+    virtual void imuRead(int16_t gyroAdc[3], int16_t accelAdc[3]) = 0;
+    virtual uint64_t getMicros() = 0;
+    virtual uint16_t readPWM(uint8_t chan)  = 0;
+    virtual void writeMotor(uint8_t index, uint16_t value)  = 0;
+    virtual void setLed(int8_t id, bool is_on, float max_brightness = 255)
+    {}
+    virtual void checkReboot(bool pendReboot) 
+    {}
+    virtual void reboot(void) 
+    {}
 
-    virtual SerialBase* getSerial() = 0;
 
-    virtual void checkReboot(bool pendReboot) = 0;
-    virtual void reboot(void) = 0;
+    //-------------------------------------------------- RC -----------------------------------------------------
+    virtual bool rcUseSerial(void) 
+    {
+        return false;
+    }
+    virtual uint16_t rcReadSerial(uint8_t chan) 
+    {
+        return 0;
+    }
+    virtual bool rcSerialReady(void) 
+    {
+        return false;
+    }
+
+
+    //------------------------------------------------ Serial ---------------------------------------------------
+    virtual SerialBase* getSerial() 
+    {
+        return nullptr;
+    }
+
+
+    //------------------------------------------------ extras ---------------------------------------------------
+    virtual void extrasCheckSwitch(void) 
+    {}
+    virtual uint8_t  extrasGetTaskCount(void)
+    {
+        return 0;
+    }
+    virtual bool     extrasHandleMSP(uint8_t command)
+    {
+        return true;
+    }
+    virtual void extrasPerformTask(uint8_t taskIndex)
+    {}
+    //TODO: this is causing circular reference, need to think about design
+    //virtual void extrasInit(MSP * _msp)
+    //{}
+
+    //----------------------------------------------- Simulation -------------------------------------------------
+    virtual void showArmedStatus(bool armed)
+    {}
+    virtual void showAuxStatus(uint8_t status)
+    {}
 }; // class BoardBase
 
 

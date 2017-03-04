@@ -32,7 +32,8 @@ public:
 };
 
 
-/********** CPP *******************/
+/********************************************* CPP ********************************************************/
+
 
 // complementary filter
 float Filters::complementaryFilter(float a, float b, float c) 

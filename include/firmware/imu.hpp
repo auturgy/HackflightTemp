@@ -42,18 +42,13 @@ enum {
 
 class IMU {
 public:
-    struct ADC {
-        int16_t gyro[3];
-        int16_t accel[3];
-    };
-public:
     // shared with MSP
     int16_t  angle[3];
     int16_t  gyroADC[3];
 
     // called from MW
     void init(const Config::ImuConfig& _imu_config);
-    void update(uint64_t _currentTime, bool _armed, const ADC& _adc);
+    void update(uint64_t _currentTime, bool _armed, const int16_t _gyroAdc[3], const int16_t _accelAdc[3]);
     void resetCalibration(bool gyro, bool accel);
     bool isGyroCalibrated();
     bool isAccelCalibrated();
@@ -100,7 +95,8 @@ private: //fields
 };
 
 
-/********** CPP *******************/
+/********************************************* CPP ********************************************************/
+
 
 
 #define INV_GYR_CMPF_FACTOR   (1.0f / ((float)CONFIG_GYRO_CMPF_FACTOR + 1.0f))
@@ -148,7 +144,7 @@ bool IMU::isAccelCalibrated()
 }
 
 
-void IMU::update(uint64_t _currentTime, bool _armed, const ADC& _adc)
+void IMU::update(uint64_t _currentTime, bool _armed, const int16_t _gyroAdc[3], const int16_t _accelAdc[3])
 {
     static float    accelLPF[3];
     static int32_t  accelZoffset;
@@ -175,8 +171,8 @@ void IMU::update(uint64_t _currentTime, bool _armed, const ADC& _adc)
     previousTime = _currentTime;
 
     for (int k=0; k<3; ++k) {
-        accelADC[k] = _adc.accel[k];
-        this->gyroADC[k] = _adc.gyro[k];
+        accelADC[k] =_accelAdc[k];
+        this->gyroADC[k] = _gyroAdc[k];
         this->gyroADC[k] >>= 2;
     }
 

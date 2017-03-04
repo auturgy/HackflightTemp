@@ -26,7 +26,6 @@
     <ClInclude Include="include\firmware\filters.hpp" />
     <ClInclude Include="include\firmware\hackflight.hpp" />
     <ClInclude Include="include\firmware\imu.hpp" />
-    <ClInclude Include="include\firmware\ImuBoardBase.hpp" />
     <ClInclude Include="include\firmware\mixer.hpp" />
     <ClInclude Include="include\firmware\msp.hpp" />
     <ClInclude Include="include\firmware\rc.hpp" />
